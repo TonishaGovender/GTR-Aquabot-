@@ -1,0 +1,115 @@
+CREATE DATABASE GREENTECH_RESOLUTIONS;
+
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL,
+  `full_name` varchar(250) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
+  `password` varchar(250) DEFAULT NULL,
+  `bot_ip` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `email_UNIQUE` (`email`);
+
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+CREATE TABLE `contact_us` (
+  `contact_id` int(11) NOT NULL,
+  `full_name` varchar(250) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
+  `comments` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE `contact_us`
+  ADD PRIMARY KEY (`contact_id`),
+  ADD UNIQUE KEY `email_UNIQUE` (`email`);
+
+ALTER TABLE `contact_us`
+  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+CREATE TABLE `chat` (
+  `chat_id` int(11) NOT NULL,
+  `full_name` varchar(250) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
+  `reason` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`chat_id`);
+
+ALTER TABLE `chat`
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE chat ADD COLUMN other_reason VARCHAR(1000);
+
+CREATE TABLE `community_fish` (
+	`fish_id` int(11) NOT NULL,
+  	`user_email` varchar(250) NOT NULL,
+  	`fish_name` varchar(250) DEFAULT NULL,
+  	`description` varchar(500) DEFAULT NULL,
+  	`image` varchar(500) DEFAULT NULL,
+  	`price` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE `community_fish`
+  ADD PRIMARY KEY (`fish_id`);
+
+ALTER TABLE `community_fish`
+  MODIFY `fish_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `community_fish`
+  ADD CONSTRAINT `fk_community_fish_users` FOREIGN KEY (`user_email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+CREATE TABLE `community_plant` (
+  `plant_id` int NOT NULL,
+  `user_email` varchar(250) NOT NULL,
+  `plant_name` varchar(250) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `image` varchar(500) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+ALTER TABLE `community_plant`
+  ADD PRIMARY KEY (`plant_id`),
+  ADD KEY `fk_community_plant_users` (`user_email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `community_fish`
+--
+ALTER TABLE `community_plant`
+  MODIFY `plant_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `community_fish`
+--
+ALTER TABLE `community_plant`
+  ADD CONSTRAINT `fk_community_plant_users` FOREIGN KEY (`user_email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE fish_feeder_timers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_email VARCHAR(255) NOT NULL,
+    timer_value BIGINT NOT NULL,
+    UNIQUE KEY `email_UNIQUE` (`user_email`)
+);
+
+
+ALTER TABLE community_fish
+ADD health_benefits VARCHAR(1000),
+ADD fish_details VARCHAR(1000),
+ADD recipe_link VARCHAR(1000);
+
+ALTER TABLE community_plant
+ADD health_benefits VARCHAR(1000),
+ADD plant_details VARCHAR(1000),
+ADD recipe_link VARCHAR(1000);
